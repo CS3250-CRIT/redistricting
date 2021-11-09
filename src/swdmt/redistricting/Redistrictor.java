@@ -3,6 +3,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 /**
@@ -153,5 +154,77 @@ public final class Redistrictor implements java.io.Serializable {
                                     final Region theRegion,
                                     final int districtSize) {
         return allDistrictsOfSpecificSize(theRegion, districtSize).iterator();
+    }
+    
+    /**
+     * Creates a graph out of a given region,
+     * using locations as vertices and connecting
+     * locations to any other location with a position
+     * which is ((x + 1) OR (x - 1)) XOR ((y + 1) OR (y - 1))
+     * from itself.
+     * <p>
+     * Returns the graph in the form of a HashMap with locations
+     * as keys and the set of locations they are connected to
+     * as values.
+     * @TODO Implement functionality as described
+     * @param input The region to generate a graph from.
+     * @return A HashMap of locations, with values of the locations 
+     *         they are connected to.
+     */
+    protected HashMap<Location, HashSet<Location>> generateGraphFromRegion(final Region input){
+    	return null;
+    }
+    
+    /**
+     * Returns a set of all contiguous sub graphs of
+     * a given graph. In other words, divides up a graph
+     * into its individual contiguous components. Therefore
+     * it will return a set containing only the original graph
+     * if the entire original graph is contiguous.
+     * @TODO Implement functionality as described
+     * @param input The graph to be subdivided
+     * @return A set containing all contiguous sub-graphs within 
+     *         the input graph.
+     */
+    protected HashSet<HashMap<Location, HashSet<Location>>> subDivideGraph(
+    									final HashMap<Location, HashSet<Location>> input){
+    	return null;
+    }
+    
+    /**
+     * Returns a copy of the input graph which has all
+     * specified locations removed from it. Functionally
+     * subtracts a selection of locations from the graph
+     * and returns the result. Any connections to the 
+     * specified locations will also be removed.
+     * @TODO Implement functionality as described
+     * @param inputGraph The graph to perform the removal operation on. 
+     * 		  This method does not mutate the original object.
+     * @param removeList The set of locations to be removed
+     * @return A new graph with specified locations removed
+     */
+    protected HashMap<Location, HashSet<Location>> removeLocationsFromGraph(
+    									final HashMap<Location, HashSet<Location>> inputGraph, 
+    									final Set<Location> removeList){
+    	return null;
+    }
+    
+    /**
+     * Checks to see if it is hypothetically possible 
+     * for a given graph to be divided into districts
+     * of a specified size. 
+     * <p>
+     * Functionally, this means that all contiguous
+     * subgraphs of the input graph possess a number
+     * of locations which is divisible by the 
+     * specified district size.
+     * @TODO Implement functionality as described
+     * @param input The graph to check for possible redistrictings.
+     * @param districtSize The size of the desired districts
+     * @return True if all contiguous subgraphs of input graph are divisible by districtSize
+     */
+    protected boolean redistrictingPossible(final HashMap<Location, HashSet<Location>> input, 
+    									final int districtSize) {
+    	return false;
     }
 }
