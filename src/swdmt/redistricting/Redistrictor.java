@@ -176,54 +176,51 @@ public final class Redistrictor implements java.io.Serializable {
     }
     
     /**
-     * Returns a set of all contiguous sub graphs of
-     * a given graph. In other words, divides up a graph
-     * into its individual contiguous components. Therefore
-     * it will return a set containing only the original graph
-     * if the entire original graph is contiguous.
+     * Returns a set of all contiguous sets of locations
+     * contained within a given graph. Consequently, if
+     * the entire graph is contiguous the returned set
+     * will only have one element, which is the set of
+     * all locations in the graph.
+     * <p>
+     * In practice, inputSet represents a graph with the
+     * same connections as specified in inputGraph, except
+     * only connections that connect locations within
+     * inputSet are considered valid.
      * @TODO Implement functionality as described
-     * @param input The graph to be subdivided
-     * @return A set containing all contiguous sub-graphs within 
-     *         the input graph.
+     * @param inputGraph The overall graph of which inputSet represents a subgraph
+     * @param inputSet The set of locations which defines a subgraph of inputGraph
+     * @return A set containing all contiguous sets of locations within 
+     *         the graph represented by inputSet.
      */
-    protected HashSet<HashMap<Location, HashSet<Location>>> subDivideGraph(
-    									final HashMap<Location, HashSet<Location>> input){
-    	return null;
-    }
-    
-    /**
-     * Returns a copy of the input graph which has all
-     * specified locations removed from it. Functionally
-     * subtracts a selection of locations from the graph
-     * and returns the result. Any connections to the 
-     * specified locations will also be removed.
-     * @TODO Implement functionality as described
-     * @param inputGraph The graph to perform the removal operation on. 
-     * 		  This method does not mutate the original object.
-     * @param removeList The set of locations to be removed
-     * @return A new graph with specified locations removed
-     */
-    protected HashMap<Location, HashSet<Location>> removeLocationsFromGraph(
-    									final HashMap<Location, HashSet<Location>> inputGraph, 
-    									final Set<Location> removeList){
+    protected HashSet<HashSet<Location>> subDivideGraph(
+    									final HashMap<Location, HashSet<Location>> inputGraph,
+    									final Set<Location> inputSet){
     	return null;
     }
     
     /**
      * Checks to see if it is hypothetically possible 
      * for a given graph to be divided into districts
-     * of a specified size. 
+     * of a specified size. This is done by assuming
+     * that inputSet acts as a subgraph of inputGraph.
+     * Therefore, inputSet represents a graph with the
+     * same connections as specified in inputGraph, except
+     * only connections that connect locations within
+     * inputSet are considered valid.
      * <p>
      * Functionally, this means that all contiguous
-     * subgraphs of the input graph possess a number
-     * of locations which is divisible by the 
+     * subgraphs of the graph represented by inputSet possess
+     * a number of locations which is divisible by the 
      * specified district size.
      * @TODO Implement functionality as described
-     * @param input The graph to check for possible redistrictings.
+     * @param inputGraph The graph for which inputSet defines a subgraph
+     * @param inputSet The set of locations specifying the subgraph of inputGraph
      * @param districtSize The size of the desired districts
-     * @return True if all contiguous subgraphs of input graph are divisible by districtSize
+     * @return True if all contiguous subgraphs of the graph defined by inputSet
+     *         are divisible by districtSize
      */
-    protected boolean redistrictingPossible(final HashMap<Location, HashSet<Location>> input, 
+    protected boolean redistrictingPossible(final HashMap<Location, HashSet<Location>> inputGraph,
+    									final Set<Location> inputSet,
     									final int districtSize) {
     	return false;
     }
