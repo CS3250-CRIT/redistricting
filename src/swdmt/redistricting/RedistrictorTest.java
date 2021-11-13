@@ -6,7 +6,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.HashSet;
 /**
  * Tests for redistrictor.
  *
@@ -261,6 +265,118 @@ public class RedistrictorTest {
         for (District d : districtSet) {
             assertTrue("Contiguity error for district " + d, d.contiguityValid());
         }
+    }
+    
+    /**
+     * Tests the normal behavior of subDivideGraph,
+     * in this example, subDivideGraph should find
+     * two distinct contiguous sets of locations.
+     * The first set contains locations A,B, and C
+     * while the second set contains D, E, and F.
+     */
+    @Test
+    public void subDivideGraphBasicTest() {
+    	//Creating locations by hand
+    	TreeSet<Location> locations = new TreeSet<Location>();
+    	Location locationA = new Location(0,0);
+    	locations.add(locationA);
+    	Location locationB = new Location(1,0);
+    	locations.add(locationB);
+    	Location locationC = new Location(-1,0);
+    	locations.add(locationC);
+    	Location locationD = new Location(4,0);
+    	locations.add(locationD);
+    	Location locationE = new Location(5,0);
+    	locations.add(locationE);
+    	Location locationF = new Location(4,1);
+    	locations.add(locationF);
+    	
+    	//Creating the graph by hand
+    	HashMap<Location, HashSet<Location>> graph = new HashMap<Location, HashSet<Location>>();
+    	HashSet<Location> locationAConnections = new HashSet<Location>();
+    	locationAConnections.add(locationB);
+    	locationAConnections.add(locationC);
+    	graph.put(locationA, locationAConnections);
+    	HashSet<Location> locationBConnections = new HashSet<Location>();
+    	locationBConnections.add(locationA);
+    	graph.put(locationB, locationBConnections);
+    	HashSet<Location> locationCConnections = new HashSet<Location>();
+    	locationCConnections.add(locationA);
+    	graph.put(locationC, locationCConnections);
+    	HashSet<Location> locationDConnections = new HashSet<Location>();
+    	locationDConnections.add(locationE);
+    	locationDConnections.add(locationF);
+    	graph.put(locationD, locationDConnections);
+    	HashSet<Location> locationEConnections = new HashSet<Location>();
+    	locationEConnections.add(locationD);
+    	graph.put(locationE, locationEConnections);
+    	HashSet<Location> locationFConnections = new HashSet<Location>();
+    	locationFConnections.add(locationD);
+    	graph.put(locationF, locationFConnections);
+    	
+    	//Creating the subgraphs by hand
+    	HashSet<HashSet<Location>> subGraphs = new HashSet<HashSet<Location>>();
+    	HashSet<Location> subGraphA = new HashSet<Location>();
+    	subGraphA.add(locationA);
+    	subGraphA.add(locationB);
+    	subGraphA.add(locationC);
+    	HashSet<Location> subGraphB = new HashSet<Location>();
+    	subGraphB.add(locationD);
+    	subGraphB.add(locationE);
+    	subGraphB.add(locationF);
+    	subGraphs.add(subGraphA);
+    	subGraphs.add(subGraphB);
+    	
+    	assertTrue(Redistrictor.subDivideGraph(graph, locations).equals(subGraphs));	
+    }
+    
+    /**
+     * Tests to see that subDivideGraph will return an empty
+     * set if the input graph is empty.
+     */
+    @Test
+    public void subDivideGraphEmptyTest() {
+    	TreeSet<Location> locations = new TreeSet<Location>();
+    	HashMap<Location, HashSet<Location>> graph = new HashMap<Location, HashSet<Location>>();
+    	HashSet<HashSet<Location>> subGraphs = new HashSet<HashSet<Location>>();
+    	assertTrue(Redistrictor.subDivideGraph(graph, locations).equals(subGraphs));
+    }
+    
+    /**
+     * Tests to see that subDivideGraph will return a set
+     * containing all locations in a graph if the graph is
+     * contiguous.
+     */
+    @Test
+    public void subDivideGraphOneRegionTest() {
+    	TreeSet<Location> locations = new TreeSet<Location>();
+    	Location locationA = new Location(0,0);
+    	locations.add(locationA);
+    	Location locationB = new Location(1,0);
+    	locations.add(locationB);
+    	Location locationC = new Location(-1,0);
+    	locations.add(locationC);
+    	
+    	HashMap<Location, HashSet<Location>> graph = new HashMap<Location, HashSet<Location>>();
+    	HashSet<Location> locationAConnections = new HashSet<Location>();
+    	locationAConnections.add(locationB);
+    	locationAConnections.add(locationC);
+    	graph.put(locationA, locationAConnections);
+    	HashSet<Location> locationBConnections = new HashSet<Location>();
+    	locationBConnections.add(locationA);
+    	graph.put(locationB, locationBConnections);
+    	HashSet<Location> locationCConnections = new HashSet<Location>();
+    	locationCConnections.add(locationA);
+    	graph.put(locationC, locationCConnections);
+    	
+    	HashSet<HashSet<Location>> subGraphs = new HashSet<HashSet<Location>>();
+    	HashSet<Location> subGraphA = new HashSet<Location>();
+    	subGraphA.add(locationA);
+    	subGraphA.add(locationB);
+    	subGraphA.add(locationC);
+    	subGraphs.add(subGraphA);
+    	
+    	assertTrue(Redistrictor.subDivideGraph(graph, locations).equals(subGraphs));
     }
 }
 
