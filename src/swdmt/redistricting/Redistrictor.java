@@ -196,16 +196,41 @@ public final class Redistrictor implements java.io.Serializable {
      * same connections as specified in inputGraph, except
      * only connections that connect locations within
      * inputSet are considered valid.
-     * @TODO Implement functionality as described
+     * @TODO Consider faster way to assign remaining set
      * @param inputGraph The overall graph of which inputSet represents a subgraph
      * @param inputSet The set of locations which defines a subgraph of inputGraph
      * @return A set containing all contiguous sets of locations within 
      *         the graph represented by inputSet.
      */
-    protected HashSet<HashSet<Location>> subDivideGraph(
+    protected static HashSet<HashSet<Location>> subDivideGraph(
     									final HashMap<Location, HashSet<Location>> inputGraph,
     									final Set<Location> inputSet){
-    	return null;
+    	if (inputSet.isEmpty()) {
+    		return new HashSet<HashSet<Location>>();
+    	}
+    	Iterator<Location> startingIterator = inputSet.iterator();
+    	Location start = startingIterator.next();
+    	HashSet<Location> searched = new HashSet<Location>();
+    	HashSet<Location> searchList = new HashSet<Location>();
+    	searched.add(start);
+    	searchList.add(start);
+    	while (!searchList.isEmpty()) {
+    		for (Location pointer: searchList) {
+    			for (Location connection: inputGraph.get(pointer)) {
+    				if (!(searched.contains(connection)) && inputSet.contains(connection)) {
+    					searched.add(connection);
+    					searchList.add(connection);
+    				}
+    			}
+    			searchList.remove(pointer);
+    		}
+    	}
+    	HashSet<Location> remainingSet = new HashSet<Location>();
+    	remainingSet.addAll(inputSet);
+    	remainingSet.removeAll(searched);
+    	HashSet<HashSet<Location>> output = subDivideGraph(inputGraph, remainingSet);
+    	output.add(searched);
+    	return output;
     }
     
     /**
@@ -229,7 +254,7 @@ public final class Redistrictor implements java.io.Serializable {
      * @return True if all contiguous subgraphs of the graph defined by inputSet
      *         are divisible by districtSize
      */
-    protected boolean redistrictingPossible(final HashMap<Location, HashSet<Location>> inputGraph,
+    protected static boolean redistrictingPossible(final HashMap<Location, HashSet<Location>> inputGraph,
     									final Set<Location> inputSet,
     									final int districtSize) {
     	return false;
