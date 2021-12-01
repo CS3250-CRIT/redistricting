@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
@@ -266,7 +265,7 @@ public class RedistrictorTest {
             assertTrue("Contiguity error for district " + d, d.contiguityValid());
         }
     }
-    
+  
     /**
      * Tests the normal behavior of subDivideGraph,
      * in this example, subDivideGraph should find
@@ -377,6 +376,24 @@ public class RedistrictorTest {
     	subGraphs.add(subGraphA);
     	
     	assertTrue(Redistrictor.subDivideGraph(graph, locations).equals(subGraphs));
+    }
+  
+    /**
+     * Test the generateGraphFromRegion method to verify it is
+     * generating a HashMap object correctly.
+     */
+    @Test
+    public void generateGraphFromRegionTest() {
+        Region region = new Region(9);
+        HashMap<Location, HashSet<Location>> map = Redistrictor.generateGraphFromRegion(region);
+        Location tempLocation = new Location(0,0);
+        Location testLocaiton1 = new Location(1,0);
+        Location testLocaiton2 = new Location(0,1);
+        HashSet<Location> testConnections1 = map.get(tempLocation);
+
+        assertTrue(testConnections1.size() == 2);
+        assertTrue(testConnections1.contains(testLocaiton1));
+        assertTrue(testConnections1.contains(testLocaiton2));
     }
 }
 

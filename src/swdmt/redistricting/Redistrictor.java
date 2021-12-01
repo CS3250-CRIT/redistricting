@@ -172,7 +172,17 @@ public final class Redistrictor implements java.io.Serializable {
      *         they are connected to.
      */
     protected static HashMap<Location, HashSet<Location>> generateGraphFromRegion(final Region input){
-    	return null;
+        HashMap<Location, HashSet<Location>> map = new HashMap<>();
+        for (Location locA : input.locations()) {
+            HashSet edges = new HashSet();
+            for (Location locB: input.locations()) {
+                if(locA.isAdjacentTo(locB)) {
+                    edges.add(locB);
+                }
+            }
+            map.put(locA,edges);
+        }
+    	return map;
     }
     
     /**
