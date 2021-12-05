@@ -224,6 +224,7 @@ public final class Redistrictor implements java.io.Serializable {
         HashMap<Location, HashSet<Location>> map = new HashMap<>();
         for (Location locA : input.locations()) {
             HashSet<Location> edges = new HashSet<Location>();
+
             for (Location locB: input.locations()) {
                 if(locA.isAdjacentTo(locB)) {
                     edges.add(locB);

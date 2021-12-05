@@ -298,6 +298,5 @@ public class RedistrictorTest {
     		assertTrue(d.contiguityValid(), "Contiguity error for district " + d);
     	}
     }
-
 }
 
